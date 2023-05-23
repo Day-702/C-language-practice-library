@@ -1,125 +1,174 @@
 #define _CRT_SECURE_NO_WARNINGS 1
+/*Ò»¡¢ÊµÑéÄ¿µÄ
+1¡¢ÊìÏ¤¶þ²æÊ÷µÄÁ´Ê½´æ´¢;
+2¡¢ÕÆÎÕ¶þ²æÊ÷µÄ½¨Á¢¡¢±éÀúµÈ»ù±¾²Ù×÷Ëã·¨µÄË¼Â·;
+3¡¢ÕÆÎÕ¹þ·òÂüÊ÷µÄ¹¹ÔìËã·¨£»
+¶þ¡¢ÊµÑéÄÚÈÝ
+1.½¨Á¢Ò»¿ÃÓÃ¶þ²æÁ´±í·½Ê½´æ´¢µÄ¶þ²æÊ÷£¬²¢ÊµÏÖ¶ÔÆä½øÐÐÏÈÐò¡¢ÖÐÐò¡¢ºóÐòÈýÖÖ·½·¨±éÀú£¬Êä³ö±éÀú½á¹û¡£
+2.¸ø¶¨n¸öÒ¶×Ó½áµãºÍÈ¨Öµ£¬½¨Á¢¹þ·òÂüÊ÷²¢Êä³ö¡£*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-#define N 20            //å“ˆå¤«æ›¼æ ‘æœ€å¤§å­å¶ç»“ç‚¹æ•°
-// äºŒå‰æ ‘
+#define N 20            //¹þ·òÂüÊ÷×î´ó×ÓÒ¶½áµãÊý
+// ¶þ²æÊ÷
 typedef char datatype;
-typedef struct Node {   //äºŒå‰é“¾è¡¨ç»“æž„å®šä¹‰
-    datatype data; 
+typedef struct Node {   //¶þ²æÁ´±í½á¹¹¶¨Òå
+    datatype data;
     struct Node* left;
     struct Node* right;
-}binary_tree_nodes; 
-struct box {            //å…ƒç´ è¾“å…¥å­˜å‚¨ç»“æž„
+}binary_tree_nodes;
+struct box {            //ÔªËØÊäÈë´æ´¢½á¹¹
     int left_or_right;
     datatype elem;
 };
-//äºŒå‰æ ‘å‡½æ•°å£°æ˜Ž
-void creat_tree(binary_tree_nodes* root);                   //å»ºæ ‘
-void binary_tree_traversal(binary_tree_nodes* root);        //éåŽ†
-void traversal_children_first(binary_tree_nodes* root);     //å…ˆåºéåŽ†
-void traversal_children_second(binary_tree_nodes* root);    //ä¸­åºéåŽ†
-void traversal_children_third(binary_tree_nodes* root);     //åŽåºéåŽ†
-binary_tree_nodes* root;                                    //å…¨å±€å˜é‡æ ¹ç»“ç‚¹root 
+typedef struct Node2 {
+    int data;
+    struct Node2* Lchild;
+    struct Node2* Rchild;
+}V2_binary_tree_nodes; 
+//¶þ²æÊ÷º¯ÊýÉùÃ÷
+void creat_tree(binary_tree_nodes* root);                   //½¨Ê÷
+void V2_creat_tree(V2_binary_tree_nodes** t);               //V2½¨Ê÷
+void binary_tree_traversal(binary_tree_nodes* root);        //±éÀú
+void V2_binary_tree_traversal(V2_binary_tree_nodes** t);    //V2±éÀú
+void traversal_children_first(binary_tree_nodes* root);     //ÏÈÐò±éÀú
+void traversal_children_second(binary_tree_nodes* root);    //ÖÐÐò±éÀú
+void traversal_children_third(binary_tree_nodes* root);     //ºóÐò±éÀú
+void V2_traversal_children_first(V2_binary_tree_nodes* t);  //V2ÏÈÐò±éÀú
+void V2_traversal_children_second(V2_binary_tree_nodes* t); //V2ÖÐÐò±éÀú
+void V2_traversal_children_third(V2_binary_tree_nodes* t);  //V2ºóÐò±éÀú
+binary_tree_nodes* root;                                    //È«¾Ö±äÁ¿¸ù½áµãroot 
+V2_binary_tree_nodes* t; 
 
-//å“ˆå¤«æ›¼æ ‘
+//¹þ·òÂüÊ÷
 typedef struct {
     int weight;
     int parent;
     int lchild;
     int rchild;
 }huffman_tree_nodes;
-huffman_tree_nodes huf_tree[2*N]; 
-//å“ˆå¤«æ›¼æ ‘å‡½æ•°å£°æ˜Ž
-void creat_huffman_tree(huffman_tree_nodes huf_tree[]);                   //å»ºå“ˆå¤«æ›¼æ ‘
-void init_huaffman_tree(huffman_tree_nodes huf_tree[], int w[], int n);   //å“ˆå¤«æ›¼æ ‘çš„åˆå§‹åŒ– 
-void output_huaffman_tree(huffman_tree_nodes huf_tree[], int n);          //å“ˆå¤«æ›¼æ ‘çš„è¾“å‡º
-void find_small(huffman_tree_nodes huf_tree[], int k, int** s1, int** s2);  //åœ¨è¾“å…¥çš„èŠ‚ç‚¹ä¸­æ‰¾å‡ºä¸¤ä¸ªæœ€å°çš„ ä¸‹æ ‡å­˜å‚¨åœ¨s1ï¼Œs2ä¸­
+huffman_tree_nodes huf_tree[2 * N];
+//¹þ·òÂüÊ÷º¯ÊýÉùÃ÷
+void creat_huffman_tree(huffman_tree_nodes huf_tree[]);                   //½¨¹þ·òÂüÊ÷
+void init_huaffman_tree(huffman_tree_nodes huf_tree[], int w[], int n);   //¹þ·òÂüÊ÷µÄ³õÊ¼»¯ 
+void output_huaffman_tree(huffman_tree_nodes huf_tree[], int n);          //¹þ·òÂüÊ÷µÄÊä³ö
+void find_small(huffman_tree_nodes huf_tree[], int k, int** s1, int** s2);  //ÔÚÊäÈëµÄ½ÚµãÖÐÕÒ³öÁ½¸ö×îÐ¡µÄ ÏÂ±ê´æ´¢ÔÚs1£¬s2ÖÐ
 int main()
 {
-    system("color F0"); 
-    root = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));        /*åŠ¨æ€å¼€è¾Ÿå­˜å‚¨ç©ºé—´ç»™æ ¹æŒ‡é’ˆ*/ 
-    int choice;
+    system("color F0");
+    root = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));        /*¶¯Ì¬¿ª±Ù´æ´¢¿Õ¼ä¸ø¸ùÖ¸Õë*/
+    int choice, choice2;
     do {
-        printf("\n\n1.äºŒå‰æ ‘æ“ä½œ\n2.å“ˆå¤«æ›¼æ ‘æ“ä½œ\n0.é€€å‡º\n\n");
-        scanf("%d", &choice);
+        printf("\n\n1.¶þ²æÊ÷²Ù×÷\n2.¹þ·òÂüÊ÷²Ù×÷\n0.ÍË³ö\n\n");
+        scanf("%d", &choice); 
         switch (choice) {
         case 1:
-            printf("æŸ¥çœ‹äºŒå‰æ ‘...\n");
-            Sleep(2000); 
-            char command[] = "start C:B_tree.jpg"; 
-            system(command); 
-            creat_tree(root); 
-            binary_tree_traversal(root); 
+            do {
+                printf("\n\n1.V1\n2.V2\n0.ÍË³ö\n\n");
+                scanf("%d", &choice2);
+                switch (choice2) { 
+                case 1:
+                    printf("²é¿´¶þ²æÊ÷...\n");
+                    Sleep(2000);
+                    char command[] = "start C:B_tree.jpg";
+                    system(command);
+                    creat_tree(root);
+                    binary_tree_traversal(root);
+                    break;
+                case 2:
+                    printf("ÇëÊäÈëµÚÒ»¸ö½ÚµãµÄÖµ£¬-1±íÊ¾Ã»ÓÐÒ¶½Úµã£º\n");
+                    V2_creat_tree(&t);
+                    V2_binary_tree_traversal(t);  
+                    break;
+                }
+            } while (choice != 0);
             break;
         case 2:
             creat_huffman_tree(huf_tree);
             break;
         default:
-            printf("\né‡æ–°é€‰æ‹©æœ‰æ•ˆé€‰é¡¹\n");
+            printf("\nÖØÐÂÑ¡ÔñÓÐÐ§Ñ¡Ïî\n");
             break;
         }
     } while (choice != 0);
-    
-	return 0;
+
+    return 0;
 }
-//å­å‡½æ•°----äºŒå‰æ ‘-----------------------------------------------------------
+//×Óº¯Êý----¶þ²æÊ÷-----------------------------------------------------------
 void creat_tree(binary_tree_nodes* root)
 {
-    //å·¦æž
+    //×óÖ¦
     root->data = '1';
     root->left = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
     if (!root->left) {
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼1");
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡1");
         exit(0);
     }
     root->left->data = '2';
     root->left->right = NULL;
     root->left->left = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
     if (!root->left->left) {
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼2");
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡2");
         exit(0);
     }
     root->left->left->data = '4';
     root->left->left->left = NULL;
     root->left->left->right = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
-    if (!root->left->left->right) { 
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼3");
+    if (!root->left->left->right) {
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡3");
         exit(0);
     }
     root->left->left->right->data = '5';
     root->left->left->right->left = NULL;
     root->left->left->right->right = NULL;
-    //å³æž
+    //ÓÒÖ¦
     root->right = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
     if (!root->right) {
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼4");
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡4");
         exit(0);
     }
     root->right->data = '3';
     root->right->left = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
-    if (!root->right->left) { 
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼5");
+    if (!root->right->left) {
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡5");
         exit(0);
     }
     root->right->left->data = '6';
     root->right->left->left = NULL;
     root->right->left->right = NULL;
-    root->right ->right = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
-    if (!root->right->right) { 
-        printf("å†…å­˜åˆ†é…å¤±è´¥ï¼6");
+    root->right->right = (binary_tree_nodes*)malloc(sizeof(binary_tree_nodes));
+    if (!root->right->right) {
+        printf("ÄÚ´æ·ÖÅäÊ§°Ü£¡6");
         exit(0);
     }
     root->right->right->data = '7';
     root->right->right->left = NULL;
     root->right->right->right = NULL;
-    printf("\n\näºŒå‰æ ‘å»ºç«‹å®Œæˆï¼\n\n");
+    printf("\n\n¶þ²æÊ÷½¨Á¢Íê³É£¡\n\n");
+}
+void V2_creat_tree(V2_binary_tree_nodes** t)
+{
+    int c;
+    scanf("%d", &c);
+    if (c == -1) {
+        *t = NULL;
+        return;
+    }
+    else {
+        *t = (V2_binary_tree_nodes*)malloc(sizeof(V2_binary_tree_nodes));
+        (*t)->data = c;
+        printf("ÊäÈë%dµÄ ×ó º¢×Ó½áµã£º", c);
+        V2_creat_tree(&((*t)->Lchild));
+        printf("ÊäÈë%dµÄ ÓÒ º¢×Ó½áµã£º", c);
+        V2_creat_tree(&((*t)->Rchild));  
+    }
+    return;
 }
 void binary_tree_traversal(binary_tree_nodes* root) {
     int choice;
-    printf("è¾“å…¥éœ€è¦éåŽ†çš„æ–¹å¼ï¼š");
+    printf("ÊäÈëÐèÒª±éÀúµÄ·½Ê½£º");
     do {
-        printf("\n\n1.å…ˆåºéåŽ†\n2.ä¸­åºéåŽ†\n3.åŽåºéåŽ†\n4.å…¨éƒ¨æ‰“å°\n0.é€€å‡º\n\n");
+        printf("\n\n1.ÏÈÐò±éÀú\n2.ÖÐÐò±éÀú\n3.ºóÐò±éÀú\n4.È«²¿´òÓ¡\n0.ÍË³ö\n\n");
         scanf("%d", &choice);
         switch (choice) {
         case 1:
@@ -132,14 +181,14 @@ void binary_tree_traversal(binary_tree_nodes* root) {
             traversal_children_third(root);
             break;
         case 4:
-            printf("å…ˆåº"); traversal_children_first(root); printf("\n");
-            printf("ä¸­åº"); traversal_children_second(root);printf("\n");
-            printf("åŽåº"); traversal_children_third(root); printf("\n"); 
+            printf("ÏÈÐò"); traversal_children_first(root); printf("\n");
+            printf("ÖÐÐò"); traversal_children_second(root); printf("\n");
+            printf("ºóÐò"); traversal_children_third(root); printf("\n");
             break;
         default:
             if (choice == 0)
                 break;
-            printf("\né‡æ–°è¾“å…¥æœ‰æ•ˆé€‰é¡¹\n");
+            printf("\nÖØÐÂÊäÈëÓÐÐ§Ñ¡Ïî\n");
             break;
         }
 
@@ -155,37 +204,79 @@ void traversal_children_first(binary_tree_nodes* root)
 }
 void traversal_children_second(binary_tree_nodes* root)
 {
-    if (root != NULL) {  
-        traversal_children_second(root->left); 
-        printf(" %c", root->data);  
-        traversal_children_second(root->right); 
+    if (root != NULL) {
+        traversal_children_second(root->left);
+        printf(" %c", root->data);
+        traversal_children_second(root->right);
     }
 }
 void traversal_children_third(binary_tree_nodes* root)
 {
-    if (root != NULL) { 
+    if (root != NULL) {
         traversal_children_third(root->left);
         traversal_children_third(root->right);
         printf(" %c", root->data);
     }
 }
-//å‡½æ•°åˆ†ç•Œçº¿------å“ˆå¤«æ›¼æ ‘----------------------------------------------------
+void V2_binary_tree_traversal(V2_binary_tree_nodes** t)
+{
+    printf("\nÏÈÐò±éÀú:");
+    V2_traversal_children_first(t);
+    printf("\nÖÐÐò±éÀú:");
+    V2_traversal_children_second(t);
+    printf("\nºóÐò±éÀú:");
+    V2_traversal_children_third(t);
+}
+void V2_traversal_children_first(V2_binary_tree_nodes* t) 
+{
+    if (t == NULL){
+        return;
+    }
+    else{
+        printf("%d ", t->data);
+        V2_traversal_children_first(t->Lchild);
+        V2_traversal_children_first(t->Rchild); 
+    }
+}
+void V2_traversal_children_second(V2_binary_tree_nodes* t)
+{
+    if (t == NULL) {
+        return;
+    }
+    else {
+        V2_traversal_children_second(t->Lchild);
+        printf("%d ", t->data); 
+        V2_traversal_children_second(t->Rchild);
+    }
+}
+void V2_traversal_children_third(V2_binary_tree_nodes* t)
+{
+    if (t == NULL) {
+        return;
+    }
+    else {
+        V2_traversal_children_third(t->Lchild);
+        V2_traversal_children_third(t->Rchild);
+        printf("%d ", t->data);  
+    }
+}
+//º¯Êý·Ö½çÏß------¹þ·òÂüÊ÷----------------------------------------------------
 void creat_huffman_tree(huffman_tree_nodes huf_tree[])
 {
     int i, n, weight[N];
-    printf("\nè¾“å…¥å­å¶ç»“ç‚¹æ•°(<=20):");
+    printf("\nÊäÈë×ÓÒ¶½áµãÊý(<=20):");
     scanf("%d", &n);
-    printf("è¾“å…¥%dä¸ªç»“ç‚¹\n", n);
+    printf("ÊäÈë%d¸ö½áµã\n", n);
     for (i = 1; i <= n; i++) {
         printf("%d:", i);
         scanf("%d", &weight[i]);
     }
-    printf("\nå­å¶ç»“ç‚¹æŽ¥æ”¶å®Œæ¯•!");
-    init_huaffman_tree(huf_tree, weight,n);
+    printf("\n×ÓÒ¶½áµã½ÓÊÕÍê±Ï!");
+    init_huaffman_tree(huf_tree, weight, n);
 }
 void init_huaffman_tree(huffman_tree_nodes huf_tree[], int w[], int n) {
     int i, * s1 = NULL, * s2 = NULL;
-    for (i = 1; i <= 2 * n - 1; i++) {              //å“ˆå¤«æ›¼æ ‘çš„åˆå§‹åŒ–
+    for (i = 1; i <= 2 * n - 1; i++) {              //¹þ·òÂüÊ÷µÄ³õÊ¼»¯
         if (i <= n) {
             huf_tree[i].weight = w[i];
             huf_tree[i].parent = 0;
@@ -201,84 +292,84 @@ void init_huaffman_tree(huffman_tree_nodes huf_tree[], int w[], int n) {
     }
     printf(" done \n");
     for (i = n + 1; i <= (2 * n) - 1; i++) {
-        printf("\nå¯»æ‰¾\n");
-        find_small(huf_tree, i - 1, &s1, &s2);                              //ä¼ å…¥å‚æ•°ä¸ºi-1 æ¯”å¯¹èŒƒå›´å‘åŽæ‰©å±•ï¼ˆå› ä¸ºæœ‰æ–°çš„ç»“ç‚¹ç”Ÿæˆï¼‰ æ¯”å¯¹è¿‡çš„ç»“ç‚¹å› ä¸ºçˆ¶äº²ç»“ç‚¹ä¸ä¸ºé›¶ ä¸å‚ä¸Žæ¯”å¯¹
-        huf_tree[i].weight = huf_tree[*s1].weight + huf_tree[*s2].weight;   //æ–°çš„ç»“ç‚¹æƒå€¼èµ‹å€¼
-        huf_tree[*s1].parent = huf_tree[*s2].parent = i;                    //çˆ¶äº²ç»“ç‚¹èµ‹å€¼
-        huf_tree[i].lchild = *s1;                                           //å­©å­ç»“ç‚¹èµ‹å€¼
-        huf_tree[i].rchild = *s2;                                           //å­©å­ç»“ç‚¹èµ‹å€¼
-        printf("s1:[%d]parents=%d s2:[%d]parents=%d\n", *s1, huf_tree[*s1].parent, *s2, huf_tree[*s2].parent);  
+        printf("\nÑ°ÕÒ\n");
+        find_small(huf_tree, i - 1, &s1, &s2);                              //´«Èë²ÎÊýÎªi-1 ±È¶Ô·¶Î§ÏòºóÀ©Õ¹£¨ÒòÎªÓÐÐÂµÄ½áµãÉú³É£© ±È¶Ô¹ýµÄ½áµãÒòÎª¸¸Ç×½áµã²»ÎªÁã ²»²ÎÓë±È¶Ô
+        huf_tree[i].weight = huf_tree[*s1].weight + huf_tree[*s2].weight;   //ÐÂµÄ½áµãÈ¨Öµ¸³Öµ
+        huf_tree[*s1].parent = huf_tree[*s2].parent = i;                    //¸¸Ç×½áµã¸³Öµ
+        huf_tree[i].lchild = *s1;                                           //º¢×Ó½áµã¸³Öµ
+        huf_tree[i].rchild = *s2;                                           //º¢×Ó½áµã¸³Öµ
+        printf("s1:[%d]parents=%d s2:[%d]parents=%d\n", *s1, huf_tree[*s1].parent, *s2, huf_tree[*s2].parent);
     }
     int cut = 0;
     printf("\n\n");
     for (i = 1; i <= 2 * n - 1; i++) {
-        printf("ç»“ç‚¹%d çš„çˆ¶äº²ç»“ç‚¹ä¸º%d\t", i, huf_tree[i].parent);
+        printf("½áµã%d µÄ¸¸Ç×½áµãÎª%d\t", i, huf_tree[i].parent);
         cut++;
-        cut % 3 == 0 ? printf("\n"):NULL;  
+        cut % 3 == 0 ? printf("\n") : 0;
     }
-    output_huaffman_tree(huf_tree, n); 
+    output_huaffman_tree(huf_tree, n);
 }
-void find_small(huffman_tree_nodes huf_tree[], int k, int** s1, int** s2) 
+void find_small(huffman_tree_nodes huf_tree[], int k, int** s1, int** s2)
 {
-    int i, min = 999999, index_1,index_2;       //minåˆå§‹ä¸ºä¸€ä¸ªè¾ƒå¤§å€¼ index_1åŠindex_2åˆ†åˆ«å­˜å‚¨ç¬¬ä¸€å°å’Œç¬¬äºŒå°çš„ä¸‹æ ‡
-    for (i = 1; i <= k; i++) {                  //ç¬¬ä¸€éæ‰¾åˆ°æœ€å°çš„æƒå€¼
-        if (huf_tree[i].weight < min&&huf_tree[i].parent==0) {
-            min = huf_tree[i].weight;           //ä¸€å®šæœ‰æ•°å°äºŽ999999  å¹¶æ›´æ–°minçš„å€¼
-            index_1 = i;                        //index1ä¿å­˜ä¸‹æ ‡
+    int i, min = 999999, index_1, index_2;       //min³õÊ¼ÎªÒ»¸ö½Ï´óÖµ index_1¼°index_2·Ö±ð´æ´¢µÚÒ»Ð¡ºÍµÚ¶þÐ¡µÄÏÂ±ê
+    for (i = 1; i <= k; i++) {                  //µÚÒ»±éÕÒµ½×îÐ¡µÄÈ¨Öµ
+        if (huf_tree[i].weight < min && huf_tree[i].parent == 0) {
+            min = huf_tree[i].weight;           //Ò»¶¨ÓÐÊýÐ¡ÓÚ999999  ²¢¸üÐÂminµÄÖµ
+            index_1 = i;                        //index1±£´æÏÂ±ê
         }
     }
-    min = 999999;                               //miné‡æ–°èµ‹å€¼
+    min = 999999;                               //minÖØÐÂ¸³Öµ
     for (i = 1; i <= k; i++) {
-        if (huf_tree[i].weight < min && huf_tree[i].parent == 0 && i != index_1) {   //ç¬¬äºŒæ¬¡æ‰¾åˆ°é™¤äº†ç¬¬ä¸€æ¬¡çš„
-                                                                                     //æ ‡å€¼ä¹‹å¤–çš„æœ€å°å€¼ï¼Œå³ç¬¬äºŒå°
+        if (huf_tree[i].weight < min && huf_tree[i].parent == 0 && i != index_1) {   //µÚ¶þ´ÎÕÒµ½³ýÁËµÚÒ»´ÎµÄ
+            //±êÖµÖ®ÍâµÄ×îÐ¡Öµ£¬¼´µÚ¶þÐ¡
             min = huf_tree[i].weight;
-            index_2 = i;                        //ä¸‹æ ‡ç”¨index2ä¿å­˜
-           
+            index_2 = i;                        //ÏÂ±êÓÃindex2±£´æ
+
         }
     }
-    *s1 = &index_1;                             //æŒ‡é’ˆèµ‹å€¼ 
-    *s2 = &index_2; 
-    printf("s1,s2èµ‹å€¼å®Œæ¯•(s1,s2)åˆ†åˆ«æ˜¯å¯»æ‰¾åˆ°çš„æœ€å°ä¸¤ç»“ç‚¹\n");
-    printf("s1:weight=%d parent=%d Lchild=%d Rchild=%d\n", huf_tree[**s1].weight, huf_tree[**s1].parent, 
+    *s1 = &index_1;                             //Ö¸Õë¸³Öµ 
+    *s2 = &index_2;
+    printf("s1,s2¸³ÖµÍê±Ï(s1,s2)·Ö±ðÊÇÑ°ÕÒµ½µÄ×îÐ¡Á½½áµã\n");
+    printf("s1:weight=%d parent=%d Lchild=%d Rchild=%d\n", huf_tree[**s1].weight, huf_tree[**s1].parent,
         huf_tree[**s1].lchild, huf_tree[**s1].rchild);
-    printf("s2:weight=%d parent=%d Lchild=%d Rchild=%d\n", huf_tree[**s2].weight, huf_tree[**s2].parent, 
+    printf("s2:weight=%d parent=%d Lchild=%d Rchild=%d\n", huf_tree[**s2].weight, huf_tree[**s2].parent,
         huf_tree[**s2].lchild, huf_tree[**s2].rchild);
 }
 void output_huaffman_tree(huffman_tree_nodes huf_tree[], int n)
 {
     int i;
-    printf("\n\nå“ˆå¤«æ›¼è¾“å‡ºï¼š\n");
-    for (i = 1; i <= 2*n-1; i++) {
-        huf_tree[i].parent!=0? printf("ç»“ç‚¹%d weight=%d parent=%d Lchild=%d Rchild=%d \n", i,huf_tree[i].weight, 
-        huf_tree[i].parent, huf_tree[i].lchild, huf_tree[i].rchild): printf("ç»“ç‚¹%d weight=%d parent=NULL Lchild=%d Rchild=%d \n", 
-                i,huf_tree[i].weight, huf_tree[i].lchild, huf_tree[i].rchild);
+    printf("\n\n¹þ·òÂüÊä³ö£º\n");
+    for (i = 1; i <= 2 * n - 1; i++) {
+        huf_tree[i].parent != 0 ? printf("½áµã%d weight=%d parent=%d Lchild=%d Rchild=%d \n", i, huf_tree[i].weight,
+            huf_tree[i].parent, huf_tree[i].lchild, huf_tree[i].rchild) : printf("½áµã%d weight=%d parent=NULL Lchild=%d Rchild=%d \n",
+                i, huf_tree[i].weight, huf_tree[i].lchild, huf_tree[i].rchild);
     }
 }
 /*void find_small(huffman_tree_nodes huf_tree[], int k, int** s1, int** s2)
 {
-    int i, min = 1, temp = 1, index = 0;               //å‡å®šmin=1ä¸ºå½“å‰æœ€å°å€¼
+    int i, min = 1, temp = 1, index = 0;               //¼Ù¶¨min=1Îªµ±Ç°×îÐ¡Öµ
     for (i = 1; i <= k; i++) {
-        if ((huf_tree[i].weight <= huf_tree[min].weight) && (huf_tree[i].parent == 0)) {        //å‡å¦‚å­˜åœ¨ä¸¤ä¸ªæœ€å° æœ¬æ¬¡æ‰¾åˆ°çš„æ˜¯é åŽè¾¹çš„æœ€å°å€¼
+        if ((huf_tree[i].weight <= huf_tree[min].weight) && (huf_tree[i].parent == 0)) {        //¼ÙÈç´æÔÚÁ½¸ö×îÐ¡ ±¾´ÎÕÒµ½µÄÊÇ¿¿ºó±ßµÄ×îÐ¡Öµ
             min = i;
             index = i;
-            *s1 = &min;         //è®°å½•åˆ°æœ€å°å€¼çš„ä¸‹æ ‡
+            *s1 = &min;         //¼ÇÂ¼µ½×îÐ¡ÖµµÄÏÂ±ê
         }
     }
     for (i = 1; i <= k; i++) {
-        if ((huf_tree[i].weight == huf_tree[min].weight) && (huf_tree[i].parent == 0) && (i!=index)) { //æœ¬æ¬¡æ‰¾åˆ°çš„æ˜¯å…ˆå‡ºçŽ°çš„æœ€å°å€¼
+        if ((huf_tree[i].weight == huf_tree[min].weight) && (huf_tree[i].parent == 0) && (i!=index)) { //±¾´ÎÕÒµ½µÄÊÇÏÈ³öÏÖµÄ×îÐ¡Öµ
             *s2 = &i;
             break;
         }
-        else {          //è‹¥ä¸å­˜åœ¨ç›¸åŒçš„æœ€å°å€¼ ç›´æŽ¥æ‰¾ç¬¬äºŒå°å€¼ ç¡®ä¿ä¸‹æ ‡ä¸Žç¬¬ä¸€æ¬¡çš„æœ€å°å€¼ä¸åŒ
+        else {          //Èô²»´æÔÚÏàÍ¬µÄ×îÐ¡Öµ Ö±½ÓÕÒµÚ¶þÐ¡Öµ È·±£ÏÂ±êÓëµÚÒ»´ÎµÄ×îÐ¡Öµ²»Í¬
             for (i = 1; i <= k; i++) {
                 if ((huf_tree[i].weight < huf_tree[temp].weight) && (huf_tree[i].parent == 0)&&(i!=index)) {
                     temp = i;
-                    *s2 = &temp;         //è®°å½•åˆ°æœ€å°å€¼çš„ä¸‹æ ‡
+                    *s2 = &temp;         //¼ÇÂ¼µ½×îÐ¡ÖµµÄÏÂ±ê
                 }
             }
         }
     }
-    printf("s1,s2èµ‹å€¼å®Œæ¯•\n");
+    printf("s1,s2¸³ÖµÍê±Ï\n");
     printf("s1:weight=%d parent=%d l=%d r=%d\n", huf_tree[**s1].weight, huf_tree[**s1].parent, huf_tree[**s1].lchild, huf_tree[**s1].rchild);
     printf("s2:weight=%d parent=%d l=%d r=%d\n", huf_tree[**s2].weight, huf_tree[**s2].parent, huf_tree[**s2].lchild, huf_tree[**s2].rchild);
 
